@@ -1,0 +1,35 @@
+%% Get data
+
+clear all; close all; clc
+
+load("wine_dataset_clean.mat")
+% addpath("pattern")
+X_wine = wine_dataset_clean(:, 1:2)';
+y_wine = wine_dataset_clean(:, 3)';
+
+colors = ['r', 'b', 'g'];
+
+figure; hold on;
+for i=1:length(colors)
+    ind = find(y_wine == i);
+    plot(X_wine(1,ind), X_wine(2,ind), strcat('o', colors(i) ))
+
+end
+hold off;
+
+%% Train
+
+[accuracy, yest] = Knn(X_wine, y_wine, 3);
+
+%% Evaluation
+colors = ['r', 'b', 'g'];
+
+figure,
+hold on;
+for i=1:length(unique(y_wine))
+    ind = find(yest == i);
+    ind_train = find(y_wine == i);
+    plot(X_wine(1,ind_train), X_wine(2,ind_train), strcat('o', colors(i) ))
+    plot(X_wine(1,ind), X_wine(2,ind), strcat('x', colors(i) ), "LineWidth", 1)
+end
+hold off;
