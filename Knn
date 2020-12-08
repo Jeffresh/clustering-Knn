@@ -1,0 +1,17 @@
+function [accuracy, yest] = Knn(X, y, k)
+
+    for j=1:size(X,2)
+        sample = X(:,j);
+
+        distance = d_euclid(X, sample);
+        [~,indexes] = mink(distance,k);
+        kcandidates = y(indexes(2:end));
+        for i=1:size(length(unique(y)))
+            n(i) = length(find(kcandidates == i));
+        end
+        [~,class]=max(n);
+        yest(j) = kcandidates(class);
+    end    
+    accuracy = 100*sum(y==yest)/size(X,2);
+
+end
